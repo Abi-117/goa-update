@@ -1,0 +1,236 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=Inter:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Premium Travel Theme - Yatra Tours - Matching PDF Design */
+
+@layer base {
+  :root {
+    --background: 220 26% 14%;
+    --foreground: 0 0% 100%;
+     --background: 0 0% 100%;
+    --foreground: 222.2 47.4% 11.2%;
+    --border: 214.3 31.8% 91.4%;
+
+    --card: 220 30% 18%;
+    --card-foreground: 0 0% 100%;
+
+    --popover: 220 30% 18%;
+    --popover-foreground: 0 0% 100%;
+
+    --primary: 38 92% 50%;
+    --primary-foreground: 220 26% 14%;
+
+    --secondary: 220 30% 22%;
+    --secondary-foreground: 0 0% 100%;
+
+    --muted: 220 30% 22%;
+    --muted-foreground: 220 15% 65%;
+
+    --accent: 174 62% 38%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 220 20% 25%;
+    --input: 220 20% 25%;
+    --ring: 38 92% 50%;
+
+    --radius: 0.5rem;
+
+    /* Custom travel theme tokens */
+    --gold: 38 92% 50%;
+    --gold-light: 38 92% 60%;
+    --gold-dark: 38 92% 42%;
+    --navy: 220 26% 14%;
+    --navy-light: 220 30% 22%;
+    --teal: 174 62% 38%;
+    --teal-light: 174 62% 48%;
+    
+    --gradient-hero: linear-gradient(180deg, hsl(220 26% 14% / 0.7), hsl(220 26% 14% / 0.85));
+    --gradient-gold: linear-gradient(135deg, hsl(38 92% 50%), hsl(38 92% 60%));
+    --gradient-teal: linear-gradient(135deg, hsl(174 62% 38%), hsl(174 62% 48%));
+    
+    --shadow-gold: 0 4px 20px hsl(38 92% 50% / 0.3);
+    --shadow-elegant: 0 10px 40px hsl(220 26% 14% / 0.5);
+
+    --sidebar-background: 220 30% 18%;
+    --sidebar-foreground: 0 0% 100%;
+    --sidebar-primary: 38 92% 50%;
+    --sidebar-primary-foreground: 220 26% 14%;
+    --sidebar-accent: 220 30% 22%;
+    --sidebar-accent-foreground: 0 0% 100%;
+    --sidebar-border: 220 20% 25%;
+    --sidebar-ring: 38 92% 50%;
+
+    --chart-1: 38 92% 50%;
+    --chart-2: 174 62% 38%;
+    --chart-3: 220 26% 14%;
+    --chart-4: 142 76% 36%;
+    --chart-5: 0 84% 60%;
+
+    --font-sans: 'Poppins', 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
+    --font-display: 'Playfair Display', ui-serif, Georgia, serif;
+  }
+
+  .dark {
+    --background: 220 26% 10%;
+    --foreground: 0 0% 100%;
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+    --border: 217.2 32.6% 17.5%;
+
+    --card: 220 30% 14%;
+    --card-foreground: 0 0% 100%;
+
+    --popover: 220 30% 14%;
+    --popover-foreground: 0 0% 100%;
+
+    --primary: 38 92% 50%;
+    --primary-foreground: 220 26% 14%;
+
+    --secondary: 220 30% 18%;
+    --secondary-foreground: 0 0% 100%;
+
+    --muted: 220 30% 18%;
+    --muted-foreground: 220 15% 60%;
+
+    --accent: 174 62% 38%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 62% 30%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 220 20% 20%;
+    --input: 220 20% 20%;
+    --ring: 38 92% 50%;
+
+    --sidebar-background: 220 30% 10%;
+    --sidebar-foreground: 0 0% 100%;
+    --sidebar-primary: 38 92% 50%;
+    --sidebar-primary-foreground: 220 26% 14%;
+    --sidebar-accent: 220 30% 18%;
+    --sidebar-accent-foreground: 0 0% 100%;
+    --sidebar-border: 220 20% 20%;
+    --sidebar-ring: 38 92% 50%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+  }
+}
+
+@layer utilities {
+  .font-display {
+    font-family: var(--font-display);
+  }
+  
+  .text-gold {
+    color: hsl(var(--gold));
+  }
+  
+  .bg-gold {
+    background-color: hsl(var(--gold));
+  }
+  
+  .bg-navy {
+    background-color: hsl(var(--navy));
+  }
+  
+  .text-navy {
+    color: hsl(var(--navy));
+  }
+  
+  .bg-teal {
+    background-color: hsl(var(--teal));
+  }
+  
+  .text-teal {
+    color: hsl(var(--teal));
+  }
+  
+  .gradient-hero {
+    background: var(--gradient-hero);
+  }
+  
+  .gradient-gold {
+    background: var(--gradient-gold);
+  }
+  
+  .gradient-teal {
+    background: var(--gradient-teal);
+  }
+  
+  .shadow-gold {
+    box-shadow: var(--shadow-gold);
+  }
+  
+  .shadow-elegant {
+    box-shadow: var(--shadow-elegant);
+  }
+}
+
+@layer components {
+  .btn-hero {
+    @apply inline-flex items-center justify-center gap-2 px-8 py-4 text-lg font-semibold rounded-md transition-all duration-300;
+    background: hsl(var(--gold));
+    color: hsl(var(--navy));
+  }
+  
+  .btn-hero:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 25px hsl(38 92% 50% / 0.4);
+    background: hsl(var(--gold-light));
+  }
+  
+  .btn-outline-hero {
+    @apply inline-flex items-center justify-center gap-2 px-8 py-4 text-lg font-semibold rounded-full transition-all duration-300 border-2;
+    border-color: hsl(var(--foreground));
+    color: hsl(var(--foreground));
+    background: transparent;
+  }
+  
+  .btn-outline-hero:hover {
+    background: hsl(var(--foreground) / 0.1);
+  }
+  
+  .btn-teal {
+    @apply inline-flex items-center justify-center gap-2 px-8 py-4 text-lg font-semibold rounded-full transition-all duration-300;
+    background: hsl(var(--teal));
+    color: hsl(var(--foreground));
+  }
+  
+  .btn-teal:hover {
+    background: hsl(var(--teal-light));
+    transform: translateY(-2px);
+  }
+  
+  .card-travel {
+    @apply rounded-xl overflow-hidden transition-all duration-500;
+    box-shadow: var(--shadow-elegant);
+  }
+  
+  .card-travel:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 50px hsl(220 26% 5% / 0.5);
+  }
+  
+  .title-italic {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 700;
+  }
+}
