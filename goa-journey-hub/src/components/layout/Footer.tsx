@@ -67,11 +67,11 @@ const Footer = () => {
       <div className="bg-gray-800 py-8 mx-auto px-4 lg:px-0 grid grid-cols-1 md:grid-cols-4 gap-10">
 
         {/* Logo & Contact */}
-        <div className="space-y-6">
+        <div className="space-y-2">
           <img
             src={data.logo ? `${API_BASE}/uploads/${data.logo}` : "/logo1.png"}
             alt="Footer Logo"
-            className="w-32 h-auto"
+            className="w-24 h-auto"
           />
           <div className="space-y-2 text-lg">
             <p dangerouslySetInnerHTML={{ __html: data.address }} />
