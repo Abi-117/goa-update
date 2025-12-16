@@ -73,7 +73,7 @@ const About = () => {
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             {/* LEFT */}
             <div>
-              <h2 className="text-5xl md:text-3xl font-bold text-foreground uppercase mb-6">
+              <h2 className="text-4xl md:text-3xl font-bold uppercase mb-6">
                 {about?.companyTitle || "Crafting Extraordinary Journeys"}
               </h2>
 
