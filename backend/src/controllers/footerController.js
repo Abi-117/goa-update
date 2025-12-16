@@ -1,37 +1,58 @@
 const Footer = require("../models/footer.model");
 
-const getFooter = async (req, res) => {
-  try {
-    let data = await Footer.findOne();
+// Default links (VERY IMPORTANT)
+const DEFAULT_LINKS = {
+  home: "/",
+  about: "/about",
+  packages: "/packages",
+  services: "/services",
+  contact: "/contact",
+};
 
-    if (!data) {
-      data = await Footer.create({
-        logo: "",
+/**
+ * GET FOOTER
+ */
+exports.getFooter = async (req, res) => {
+  try {
+    let footer = await Footer.findOne();
+
+    // If footer not exists, create default one
+    if (!footer) {
+      footer = new Footer({
         address: "",
         phone: "",
         email: "",
         facebook: "",
         instagram: "",
         youtube: "",
-        links: {
-          home: "/",
-          about: "/about",
-          packages: "/packages",
-          services: "/services",
-          contact: "/contact",
-        },
+        links: DEFAULT_LINKS,
       });
+      await footer.save();
     }
 
-    res.json(data);
+    // 🔥 FORCE links always
+    if (!footer.links) {
+      footer.links = DEFAULT_LINKS;
+      await footer.save();
+    }
+
+    res.json(footer);
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    console.error("Get footer error:", err);
+    res.status(500).json({ message: "Failed to fetch footer" });
   }
 };
 
-const updateFooter = async (req, res) => {
+/**
+ * UPDATE FOOTER
+ */
+exports.updateFooter = async (req, res) => {
   try {
-    const file = req.file ? req.file.filename : undefined;
+    let footer = await Footer.findOne();
+
+    if (!footer) {
+      footer = new Footer();
+    }
 
     const {
       address,
@@ -40,38 +61,41 @@ const updateFooter = async (req, res) => {
       facebook,
       instagram,
       youtube,
-      home,
-      about,
-      packages,
-      services,
-      contact,
     } = req.body;
 
-    const updated = await Footer.findOneAndUpdate(
-      {},
-      {
-        ...(file && { logo: `/uploads/${file}` }),
-        address,
-        phone,
-        email,
-        facebook,
-        instagram,
-        youtube,
-        links: {
-          home,
-          about,
-          packages,
-          services,
-          contact,
-        },
-      },
-      { new: true, upsert: true }
-    );
+    // ✅ Parse links safely
+    let links = DEFAULT_LINKS;
+    if (req.body.links) {
+      try {
+        links = JSON.parse(req.body.links);
+      } catch {
+        links = DEFAULT_LINKS;
+      }
+    }
 
-    res.json(updated);
+    // Assign fields
+    footer.address = address ?? footer.address;
+    footer.phone = phone ?? footer.phone;
+    footer.email = email ?? footer.email;
+    footer.facebook = facebook ?? footer.facebook;
+    footer.instagram = instagram ?? footer.instagram;
+    footer.youtube = youtube ?? footer.youtube;
+    footer.links = links;
+
+    // Handle logo upload
+    if (req.file) {
+      footer.logo = req.file.filename;
+    }
+
+    await footer.save();
+
+    res.json({
+      success: true,
+      message: "Footer updated successfully",
+      data: footer,
+    });
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    console.error("Update footer error:", err);
+    res.status(500).json({ message: "Failed to update footer" });
   }
 };
-
-module.exports = { getFooter, updateFooter };

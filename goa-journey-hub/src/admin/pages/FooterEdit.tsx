@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import axios from "axios";
 import AdminLayout from "../components/AdminLayout";
@@ -22,42 +21,54 @@ interface FooterData {
   links: FooterLinks;
 }
 
-const FooterEdit = () => {
-  const [form, setForm] = useState<FooterData>({
-    logo: "",
-    address: "",
-    phone: "",
-    email: "",
-    facebook: "",
-    instagram: "",
-    youtube: "",
-    links: {
-      home: "/",
-      about: "/about",
-      packages: "/packages",
-      services: "/services",
-      contact: "/contact",
-    },
-  });
+const DEFAULT_LINKS: FooterLinks = {
+  home: "/",
+  about: "/about",
+  packages: "/packages",
+  services: "/services",
+  contact: "/contact",
+};
 
+const DEFAULT_FORM: FooterData = {
+  logo: "",
+  address: "",
+  phone: "",
+  email: "",
+  facebook: "",
+  instagram: "",
+  youtube: "",
+  links: DEFAULT_LINKS,
+};
+
+const FooterEdit = () => {
+  const [form, setForm] = useState<FooterData>(DEFAULT_FORM);
   const [logoPreview, setLogoPreview] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
-  const API_BASE = "http://localhost:5000"; // change if different
+  const API_BASE = "http://localhost:5000";
 
   // Fetch existing footer data
-  useEffect(() => {
-    axios
-      .get(`${API_BASE}/api/footer`)
-      .then((res) => {
-        if (res.data) {
-          setForm(res.data);
-          if (res.data.logo)
-            setLogoPreview(`${API_BASE}/uploads/${res.data.logo}`);
+useEffect(() => {
+  axios
+    .get(`${API_BASE}/api/footer`)
+    .then((res) => {
+      if (res.data) {
+        setForm({
+          ...DEFAULT_FORM,
+          ...res.data,
+          links: res.data.links || DEFAULT_LINKS,
+        });
+
+        if (res.data.logo) {
+          setLogoPreview(
+            `${API_BASE}/uploads/${res.data.logo}?t=${Date.now()}`
+          );
         }
-      })
-      .catch((err) => console.error("Error loading footer:", err));
-  }, []);
+      }
+    })
+    .catch((err) => console.error("Error loading footer:", err));
+}, []);
+
 
   // Handle form submission
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -74,14 +85,12 @@ const FooterEdit = () => {
     fd.append("links", JSON.stringify(form.links));
 
     const fileInput = (e.target as any).logo;
-    if (fileInput.files[0]) {
+    if (fileInput?.files?.[0]) {
       fd.append("logo", fileInput.files[0]);
     }
 
     try {
-      await axios.put(`${API_BASE}/api/footer/update`, fd, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
+      await axios.put(`${API_BASE}/api/footer/update`, fd);
       alert("Footer updated successfully!");
     } catch (err) {
       console.error(err);
@@ -110,7 +119,10 @@ const FooterEdit = () => {
             type="file"
             name="logo"
             onChange={(e) => {
-              setLogoPreview(URL.createObjectURL((e.target as any).files[0]));
+              const file = e.target.files?.[0];
+              if (file) {
+                setLogoPreview(URL.createObjectURL(file));
+              }
             }}
           />
         </div>
@@ -121,7 +133,9 @@ const FooterEdit = () => {
           <textarea
             className="w-full p-3 rounded border h-24"
             value={form.address}
-            onChange={(e) => setForm({ ...form, address: e.target.value })}
+            onChange={(e) =>
+              setForm({ ...form, address: e.target.value })
+            }
             placeholder="Full Address"
           />
         </div>
@@ -131,13 +145,17 @@ const FooterEdit = () => {
           <input
             className="p-3 rounded border"
             value={form.phone}
-            onChange={(e) => setForm({ ...form, phone: e.target.value })}
+            onChange={(e) =>
+              setForm({ ...form, phone: e.target.value })
+            }
             placeholder="Phone"
           />
           <input
             className="p-3 rounded border"
             value={form.email}
-            onChange={(e) => setForm({ ...form, email: e.target.value })}
+            onChange={(e) =>
+              setForm({ ...form, email: e.target.value })
+            }
             placeholder="Email"
           />
         </div>
@@ -147,19 +165,25 @@ const FooterEdit = () => {
           <input
             className="p-3 rounded border"
             value={form.facebook}
-            onChange={(e) => setForm({ ...form, facebook: e.target.value })}
+            onChange={(e) =>
+              setForm({ ...form, facebook: e.target.value })
+            }
             placeholder="Facebook URL"
           />
           <input
             className="p-3 rounded border"
             value={form.instagram}
-            onChange={(e) => setForm({ ...form, instagram: e.target.value })}
+            onChange={(e) =>
+              setForm({ ...form, instagram: e.target.value })
+            }
             placeholder="Instagram URL"
           />
           <input
             className="p-3 rounded border"
             value={form.youtube}
-            onChange={(e) => setForm({ ...form, youtube: e.target.value })}
+            onChange={(e) =>
+              setForm({ ...form, youtube: e.target.value })
+            }
             placeholder="YouTube URL"
           />
         </div>
@@ -167,20 +191,27 @@ const FooterEdit = () => {
         {/* Quick Links */}
         <div>
           <h2 className="font-semibold text-lg">Quick Links</h2>
-          {Object.entries(form.links).map(([key, value]) => (
-            <input
-              key={key}
-              className="w-full p-3 rounded border mb-2"
-              value={value}
-              onChange={(e) =>
-                setForm({
-                  ...form,
-                  links: { ...form.links, [key]: e.target.value },
-                })
-              }
-              placeholder={`${key.charAt(0).toUpperCase() + key.slice(1)} Link`}
-            />
-          ))}
+          {Object.entries(form.links || DEFAULT_LINKS).map(
+            ([key, value]) => (
+              <input
+                key={key}
+                className="w-full p-3 rounded border mb-2"
+                value={value}
+                onChange={(e) =>
+                  setForm({
+                    ...form,
+                    links: {
+                      ...form.links,
+                      [key]: e.target.value,
+                    },
+                  })
+                }
+                placeholder={`${
+                  key.charAt(0).toUpperCase() + key.slice(1)
+                } Link`}
+              />
+            )
+          )}
         </div>
 
         {/* Submit */}

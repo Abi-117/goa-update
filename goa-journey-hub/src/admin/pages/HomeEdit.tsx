@@ -49,8 +49,8 @@ const HomeEdit = () => {
       ctaSubtitle: d?.ctaSubtitle || "",
     });
 
-    if (d?.heroImage) setHeroPreview(`${API}${d.heroImage}`);
-    if (d?.ctaImage) setCtaPreview(`${API}${d.ctaImage}`);
+    if (d?.heroImage) setHeroPreview(`${API}/uploads/${d.heroImage}`);
+    if (d?.ctaImage) setCtaPreview(`${API}/uploads/${d.ctaImage}`);
   };
 
   const loadPackages = async () => {

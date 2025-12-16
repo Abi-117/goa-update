@@ -17,8 +17,8 @@ const AdminUser = require("./src/models/AdminUser");
     // Create new admin
     await AdminUser.create({
       name: "Admin",
-      email: process.env.ADMIN_EMAIL || "admin@gmail.com",
-      password: process.env.ADMIN_PASSWORD || "admin123",
+      email: process.env.ADMIN_EMAIL ,
+      password: process.env.ADMIN_PASSWORD,
     });
 
     console.log("Admin created successfully!");

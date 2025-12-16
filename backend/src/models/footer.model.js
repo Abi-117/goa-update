@@ -22,21 +22,25 @@
 // module.exports = mongoose.model("Footer", footerSchema);
 const mongoose = require("mongoose");
 
-const FooterSchema = new mongoose.Schema({
-  logo: String,
-  address: String,
-  phone: String,
-  email: String,
-  facebook: String,
-  instagram: String,
-  youtube: String,
-  links: {
-    home: String,
-    about: String,
-    packages: String,
-    services: String,
-    contact: String,
+const footerSchema = new mongoose.Schema(
+  {
+    logo: String,
+    address: String,
+    phone: String,
+    email: String,
+    facebook: String,
+    instagram: String,
+    youtube: String,
+    links: {
+      home: String,
+      about: String,
+      packages: String,
+      services: String,
+      contact: String,
+    },
   },
-});
+  { timestamps: true }
+);
 
-module.exports = mongoose.model("Footer", FooterSchema);
+module.exports = mongoose.model("Footer", footerSchema);
+
